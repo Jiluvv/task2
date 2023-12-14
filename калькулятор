@@ -1,0 +1,54 @@
+class WordCalculator:
+    def __init__(self):
+        self.numbers = {
+            "ноль": 0, "один": 1, "два": 2, "три": 3, "четыре": 4, "пять": 5, "шесть": 6, "семь": 7, "восемь": 8, "девять": 9,
+            "десять": 10, "одиннадцать": 11, "двенадцать": 12, "тринадцать": 13, "четырнадцать": 14, "пятнадцать": 15,
+            "шестнадцать": 16, "семнадцать": 17, "восемнадцать": 18, "девятнадцать": 19,
+            "двадцать": 20, "тридцать": 30, "сорок": 40, "пятьдесят": 50, "шестьдесят": 60, "семьдесят": 70, "восемьдесят": 80, "девяносто": 90
+        }
+
+    def calculate(self, expression):
+        words = expression.split()
+        num1 = 0
+        num2 = 0
+        operator = ""
+        result = 0
+
+        for word in words:
+            if word in self.numbers:
+                if operator == "":
+                    num1 += self.numbers[word]
+                else:
+                    num2 += self.numbers[word]
+            elif word in ["плюс", "минус", "умножить"]:
+                operator = word
+
+        if operator == "плюс":
+            result = num1 + num2
+        elif operator == "минус":
+            result = num1 - num2
+        elif operator == "умножить":
+            result = num1 * num2
+
+        return self.convert_to_words(result)
+
+    def convert_to_words(self, number):
+        if number < 20:
+            return list(self.numbers.keys())[list(self.numbers.values()).index(number)]
+
+        if number % 10 == 0:
+            return list(self.numbers.keys())[list(self.numbers.values()).index(number)]
+        else:
+            return list(self.numbers.keys())[list(self.numbers.values()).index(number - number % 10)] + " " + list(self.numbers.keys())[
+                list(self.numbers.values()).index(number % 10)]
+
+
+def calc(expression):
+    calculator = WordCalculator()
+    result = calculator.calculate(expression)
+    return result
+
+
+print(calc("двадцать пять плюс тринадцать")) 
+
+
